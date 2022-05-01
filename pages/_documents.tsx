@@ -7,11 +7,11 @@ class MyDocument extends Document {
     }
     render() {
         return (
-            <Html>
+            <Html className="h-full bg-gray-50">
                 <Head>
                     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
                 </Head>
-                <body>
+                <body className="h-full font-sans">
                     <Main />
                     <NextScript />
                 </body>
