@@ -4,14 +4,14 @@ import Image from 'next/image'
 
 const Home: NextPage = () => {
   return (
-    <div className={'px-0 py-8'}>
+    <div className={'px-0 py-8 font-sans'}>
       <Head>
         <title>SaaS Onboarding</title>
         <meta name="description" content="SaaS Onboarding app for B2B customers through a third party and subscriptions" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={'h-screen flex flex-col justify-center items-center flex-1 py-16 px-0'}>
+      <main className={'h-screen flex flex-col justify-center items-center flex-1 py-16 px-0 '}>
         <h1 className={''}>
           Welcome to SaaS Onboarding
         </h1>
