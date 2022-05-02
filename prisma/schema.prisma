@@ -13,17 +13,18 @@ datasource db {
 }
 
 model Accounts {
-  id          Int      @id @default(autoincrement())
-  email       String   @unique
+  id          Int           @id @default(autoincrement())
+  email       String        @unique
   firstName   String?
   lastName    String?
-  auth0Id     String?  @unique
+  auth0Id     String?       @unique
   avatarUrl   String?
   lastLoginAt DateTime
-  createdAt   DateTime @default(now())
-  isAdmin     Boolean  @default(false)
-  isStaff     Boolean  @default(false)
-  isActive    Boolean  @default(true)
+  createdAt   DateTime      @default(now())
+  isAdmin     Boolean       @default(false)
+  isStaff     Boolean       @default(false)
+  isActive    Boolean       @default(true)
+  teamMembers TeamMembers[]
 }
 
 model Subscriptions {
@@ -37,7 +38,7 @@ model Subscriptions {
   stripeSubscriptionId String?
   tier                 String?
   isActive             Boolean   @default(true)
-  Teams                Teams[]
+  teams                Teams[]
 }
 
 model Teams {
@@ -48,4 +49,16 @@ model Teams {
   updatedAt      DateTime?
   subscription   Subscriptions @relation(fields: [subscriptionId], references: [id])
   subscriptionId String
+  members        TeamMembers[]
+}
+
+model TeamMembers {
+  id        Int       @id @default(autoincrement())
+  team      Teams     @relation(fields: [teamId], references: [id])
+  teamId    Int
+  account   Accounts  @relation(fields: [accountId], references: [id])
+  accountId Int
+  role      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
 }
