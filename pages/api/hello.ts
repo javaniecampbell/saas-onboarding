@@ -1,13 +1,16 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-
+import { createApiHelper } from "@/helpers/api-helper"
 type Data = {
   name: string
 }
 
 export default function handler(
- _req: NextApiRequest,
+  req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  res.status(200).json({ name: 'John Doe' })
+  const api = createApiHelper(req, res);
+  api.get((_, response) => {
+    response.status(200).json({ name: 'John Doe' })
+  });
 }
