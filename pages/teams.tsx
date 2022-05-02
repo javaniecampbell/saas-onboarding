@@ -1,5 +1,5 @@
 import Layout from "@/components/Layout"
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { NextPage } from "next"
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { Member } from "@/components/_types"
@@ -7,6 +7,12 @@ import EmptyMembersList from "@/components/EmptyMembersList"
 
 const Teams: NextPage = () => {
     const [members, setMembers] = useState<Member[]>([])
+    useEffect(() => {
+        setMembers([])
+
+        //return () => {}
+    }, [])
+
     return (
         <Layout>
             <div className="mt-4 sm:mt-6 lg:mt-8">
