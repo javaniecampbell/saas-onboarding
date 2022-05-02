@@ -7,7 +7,7 @@ class MyDocument extends Document {
     }
     render() {
         return (
-            <Html className="h-full bg-gray-50">
+            <Html lang="en" className="h-full bg-gray-50">
                 <Head>
                     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
                 </Head>
