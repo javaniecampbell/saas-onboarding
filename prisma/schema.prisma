@@ -25,3 +25,27 @@ model Accounts {
   isStaff     Boolean  @default(false)
   isActive    Boolean  @default(true)
 }
+
+model Subscriptions {
+  id                   String    @id @default(cuid())
+  name                 String
+  slug                 String
+  createdAt            DateTime  @default(now())
+  cancelledAt          DateTime?
+  updatedAt            DateTime
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  tier                 String?
+  isActive             Boolean   @default(true)
+  Teams                Teams[]
+}
+
+model Teams {
+  id             Int           @id @default(autoincrement())
+  name           String
+  slug           String
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime?
+  subscription   Subscriptions @relation(fields: [subscriptionId], references: [id])
+  subscriptionId String
+}
