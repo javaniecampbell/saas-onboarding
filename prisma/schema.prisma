@@ -13,18 +13,19 @@ datasource db {
 }
 
 model Accounts {
-  id          Int           @id @default(autoincrement())
-  email       String        @unique
-  firstName   String?
-  lastName    String?
-  auth0Id     String?       @unique
-  avatarUrl   String?
-  lastLoginAt DateTime
-  createdAt   DateTime      @default(now())
-  isAdmin     Boolean       @default(false)
-  isStaff     Boolean       @default(false)
-  isActive    Boolean       @default(true)
-  teamMembers TeamMembers[]
+  id                     Int                 @id @default(autoincrement())
+  email                  String              @unique
+  firstName              String?
+  lastName               String?
+  auth0Id                String?             @unique
+  avatarUrl              String?
+  lastLoginAt            DateTime
+  createdAt              DateTime            @default(now())
+  isAdmin                Boolean             @default(false)
+  isStaff                Boolean             @default(false)
+  isActive               Boolean             @default(true)
+  teamMembers            TeamMembers[]
+  memberInvitations MemberInvitations[]
 }
 
 model Subscriptions {
@@ -53,12 +54,25 @@ model Teams {
 }
 
 model TeamMembers {
-  id        Int       @id @default(autoincrement())
-  team      Teams     @relation(fields: [teamId], references: [id])
-  teamId    Int
-  account   Accounts  @relation(fields: [accountId], references: [id])
-  accountId Int
-  role      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime?
+  id                Int                 @id @default(autoincrement())
+  team              Teams               @relation(fields: [teamId], references: [id])
+  teamId            Int
+  account           Accounts            @relation(fields: [accountId], references: [id])
+  accountId         Int
+  role              String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime?
+  memberInvitations MemberInvitations[]
+}
+
+model MemberInvitations {
+  id           Int         @id @default(autoincrement())
+  email        String
+  teamMemberId Int
+  isAccepted   Boolean     @default(false)
+  invitedById  Int
+  createdAt    DateTime    @default(now())
+  expiredAt    DateTime?
+  invitedBy    Accounts    @relation(fields: [invitedById], references: [id])
+  member       TeamMembers @relation(fields: [teamMemberId], references: [id])
 }
