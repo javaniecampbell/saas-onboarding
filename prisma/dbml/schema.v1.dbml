@@ -27,10 +27,9 @@ Table Subscriptions {
   updatedAt DateTime [not null]
   stripeCustomerId String
   stripeSubscriptionId String
-  tier Tiers
+  tier String
   isActive Boolean [not null, default: true]
   teams Teams [not null]
-  tierId Int
 }
 
 Table Teams {
@@ -67,19 +66,6 @@ Table MemberInvitations {
   invitedBy Accounts [not null]
   member TeamMembers [not null]
 }
-
-Table Tiers {
-  id Int [pk, increment]
-  name String [not null]
-  stripePriceId String [not null]
-  description String
-  isActive Boolean [not null, default: true]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime
-  Subscriptions Subscriptions [not null]
-}
-
-Ref: Subscriptions.tierId > Tiers.id
 
 Ref: Teams.subscriptionId > Subscriptions.id
 

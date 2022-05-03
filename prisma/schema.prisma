@@ -41,9 +41,10 @@ model Subscriptions {
   updatedAt            DateTime
   stripeCustomerId     String?
   stripeSubscriptionId String?
-  tier                 String?
+  tier                 Tiers?    @relation(fields: [tierId], references: [id])
   isActive             Boolean   @default(true)
   teams                Teams[]
+  tierId               Int?
 }
 
 model Teams {
@@ -79,4 +80,15 @@ model MemberInvitations {
   expiredAt    DateTime?
   invitedBy    Accounts    @relation(fields: [invitedById], references: [id])
   member       TeamMembers @relation(fields: [teamMemberId], references: [id])
+}
+
+model Tiers {
+  id            Int             @id @default(autoincrement())
+  name          String
+  stripePriceId String
+  description   String?
+  isActive      Boolean         @default(true)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime?
+  Subscriptions Subscriptions[]
 }
