@@ -6,6 +6,10 @@ generator client {
   previewFeatures = ["referentialIntegrity"]
 }
 
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
 datasource db {
   provider             = "mysql"
   url                  = env("DATABASE_URL")
@@ -13,18 +17,18 @@ datasource db {
 }
 
 model Accounts {
-  id                     Int                 @id @default(autoincrement())
-  email                  String              @unique
-  firstName              String?
-  lastName               String?
-  auth0Id                String?             @unique
-  avatarUrl              String?
-  lastLoginAt            DateTime
-  createdAt              DateTime            @default(now())
-  isAdmin                Boolean             @default(false)
-  isStaff                Boolean             @default(false)
-  isActive               Boolean             @default(true)
-  teamMembers            TeamMembers[]
+  id                Int                 @id @default(autoincrement())
+  email             String              @unique
+  firstName         String?
+  lastName          String?
+  auth0Id           String?             @unique
+  avatarUrl         String?
+  lastLoginAt       DateTime
+  createdAt         DateTime            @default(now())
+  isAdmin           Boolean             @default(false)
+  isStaff           Boolean             @default(false)
+  isActive          Boolean             @default(true)
+  teamMembers       TeamMembers[]
   memberInvitations MemberInvitations[]
 }
 

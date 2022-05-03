@@ -1,0 +1,78 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Accounts {
+  id Int [pk, increment]
+  email String [unique, not null]
+  firstName String
+  lastName String
+  auth0Id String [unique]
+  avatarUrl String
+  lastLoginAt DateTime [not null]
+  createdAt DateTime [default: `now()`, not null]
+  isAdmin Boolean [not null, default: false]
+  isStaff Boolean [not null, default: false]
+  isActive Boolean [not null, default: true]
+  teamMembers TeamMembers [not null]
+  memberInvitations MemberInvitations [not null]
+}
+
+Table Subscriptions {
+  id String [pk]
+  name String [not null]
+  slug String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  cancelledAt DateTime
+  updatedAt DateTime [not null]
+  stripeCustomerId String
+  stripeSubscriptionId String
+  tier String
+  isActive Boolean [not null, default: true]
+  teams Teams [not null]
+}
+
+Table Teams {
+  id Int [pk, increment]
+  name String [not null]
+  slug String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+  subscription Subscriptions [not null]
+  subscriptionId String [not null]
+  members TeamMembers [not null]
+}
+
+Table TeamMembers {
+  id Int [pk, increment]
+  team Teams [not null]
+  teamId Int [not null]
+  account Accounts [not null]
+  accountId Int [not null]
+  role String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+  memberInvitations MemberInvitations [not null]
+}
+
+Table MemberInvitations {
+  id Int [pk, increment]
+  email String [not null]
+  teamMemberId Int [not null]
+  isAccepted Boolean [not null, default: false]
+  invitedById Int [not null]
+  createdAt DateTime [default: `now()`, not null]
+  expiredAt DateTime
+  invitedBy Accounts [not null]
+  member TeamMembers [not null]
+}
+
+Ref: Teams.subscriptionId > Subscriptions.id
+
+Ref: TeamMembers.teamId > Teams.id
+
+Ref: TeamMembers.accountId > Accounts.id
+
+Ref: MemberInvitations.invitedById > Accounts.id
+
+Ref: MemberInvitations.teamMemberId > TeamMembers.id
