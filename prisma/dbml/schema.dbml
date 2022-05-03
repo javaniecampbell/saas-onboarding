@@ -76,7 +76,7 @@ Table Tiers {
   isActive Boolean [not null, default: true]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime
-  Subscriptions Subscriptions [not null]
+  subscriptions Subscriptions [not null]
 }
 
 Ref: Subscriptions.tierId > Tiers.id
