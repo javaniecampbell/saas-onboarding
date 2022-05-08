@@ -1,11 +1,31 @@
 import CreateAccountForm from '@/components/CreateAccountForm'
+import Loader from '@/components/Loader'
 import { useUser } from '@auth0/nextjs-auth0'
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import RegistrationForm from '../components/RegistrationForm'
 
 const Home: NextPage = () => {
   const { user, isLoading } = useUser()
+  const router = useRouter()
+  const [hasAccount, setHasAccount] = useState(false)
+  useEffect(() => {
+
+    if (!isLoading && user) {
+      const withAccount = (user as any)['https://api.pms/accountCreated'];
+      setHasAccount(withAccount);
+      if (hasAccount && hasAccount === true) {
+        router.push('/teams');
+      }
+      console.log(hasAccount)
+    }
+
+  }, [isLoading, user, router.isReady]);
+
+  if (isLoading && !hasAccount)
+    return <div className="flex justify-center items-center h-full w-full"><Loader /></div>;
   return (
     <div>
       <Head>
@@ -14,8 +34,12 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {(!isLoading && !user) ? <RegistrationForm /> :
-        <CreateAccountForm image={user?.picture!} email={user?.email!} firstName={user?.name?.split(" ")[0]} lastName={user?.name?.split(" ")[1]} />}
+      {(!isLoading && !user)
+        ? <RegistrationForm />
+        : (!isLoading && user && hasAccount === false)
+          ? <CreateAccountForm image={user?.picture!} email={user?.email!} firstName={user?.name?.split(" ")[0]} lastName={user?.name?.split(" ")[1]} />
+          : null
+      }
 
       {(!isLoading && user) ? (<div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8 ">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
