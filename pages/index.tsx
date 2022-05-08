@@ -17,7 +17,7 @@ const Home: NextPage = () => {
       {(!isLoading && !user) ? <RegistrationForm /> :
         <CreateAccountForm image={user?.picture!} email={user?.email!} firstName={user?.name?.split(" ")[0]} lastName={user?.name?.split(" ")[1]} />}
 
-      <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8 ">
+      {(!isLoading && user) ? (<div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8 ">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
             <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 ">
@@ -25,7 +25,7 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div>) : null}
     </div>
   )
 }
