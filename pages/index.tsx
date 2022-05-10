@@ -15,14 +15,17 @@ const Home: NextPage = () => {
 
     if (!isLoading && user) {
       const withAccount = (user as any)['https://api.pms/accountCreated'];
-      setHasAccount(withAccount);
-      if (hasAccount && hasAccount === true) {
+      if (withAccount === undefined) {
+        setHasAccount(false);
+      } else
+        setHasAccount(withAccount);
+      if (hasAccount === true) {
         router.push('/teams');
       }
-      console.log(hasAccount)
+      console.log("hasAccount", hasAccount)
     }
 
-  }, [isLoading, user, router.isReady]);
+  }, [isLoading, user, router.isReady, hasAccount]);
 
   if (isLoading && !hasAccount)
     return <div className="flex justify-center items-center h-full w-full"><Loader /></div>;
@@ -36,9 +39,11 @@ const Home: NextPage = () => {
 
       {(!isLoading && !user)
         ? <RegistrationForm />
-        : (!isLoading && user && hasAccount === false)
-          ? <CreateAccountForm image={user?.picture!} email={user?.email!} firstName={user?.name?.split(" ")[0]} lastName={user?.name?.split(" ")[1]} />
-          : null
+        : null}
+
+      {(user && hasAccount === false)
+        ? <CreateAccountForm image={user?.picture!} email={user?.email!} firstName={user?.name?.split(" ")[0]} lastName={user?.name?.split(" ")[1]} />
+        : null
       }
 
       {(!isLoading && user) ? (<div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8 ">
