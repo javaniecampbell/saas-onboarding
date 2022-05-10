@@ -25,7 +25,16 @@ function EmptyMembersList() {
                         member permissions.
                     </p>
                 </div>
-                <form action="#" className="mt-6 flex">
+                <form action="/api/accounts/getting-started" method="post" className="mt-6 flex">
+
+                    <button
+                        type="submit"
+                        className="w-full flex-shrink-0 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                        Let's get started
+                    </button>
+                </form>
+                {/* <form action="#" className="mt-6 flex">
                     <label htmlFor="email" className="sr-only">
                         Email address
                     </label>
@@ -42,7 +51,7 @@ function EmptyMembersList() {
                     >
                         Send invite
                     </button>
-                </form>
+                </form> */}
             </div>
         </div>
     )
