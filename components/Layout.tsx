@@ -9,18 +9,23 @@ import {
   InboxIcon,
   MenuIcon,
   UsersIcon,
+  LogoutIcon,
+  CogIcon,
+  CreditCardIcon,
   XIcon,
 } from '@heroicons/react/outline'
 import Image from 'next/image'
 import { useUser } from '@auth0/nextjs-auth0'
+import Link from 'next/link'
 
 const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'Team', href: '#', icon: UsersIcon, current: false },
-  { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-  { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  { name: 'Documents', href: '#', icon: InboxIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
+  { name: 'Dashboard', href: '/', icon: HomeIcon, current: true },
+  { name: 'Team', href: '/teams', icon: UsersIcon, current: false },
+  // { name: 'Projects', href: '#', icon: FolderIcon, current: false },
+  { name: 'Billing', href: '/billing', icon: CreditCardIcon, current: false },
+  { name: 'Settings', href: '/settings', icon: CogIcon, current: false },
+  // { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
+  { name: 'Logout', href: '/api/auth/logout', icon: LogoutIcon, current: false },
 ]
 
 function classNames(...classes: string[]) {
@@ -103,46 +108,48 @@ function Layout({ children }: { children?: React.ReactNode }) {
                   </div>
                   <nav className="mt-5 px-2 space-y-1">
                     {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'group flex items-center px-2 py-2 text-base font-medium rounded-md'
-                        )}
-                      >
-                        <item.icon
+                      <Link href={item.href} key={item.name + '-mobile'}>
+                        <a
                           className={classNames(
-                            item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
-                            'mr-4 flex-shrink-0 h-6 w-6'
+                            item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                            'group flex items-center px-2 py-2 text-base font-medium rounded-md'
                           )}
-                          aria-hidden="true"
-                        />
-                        {item.name}
-                      </a>
+                        >
+                          <item.icon
+                            className={classNames(
+                              item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
+                              'mr-4 flex-shrink-0 h-6 w-6'
+                            )}
+                            aria-hidden="true"
+                          />
+                          {item.name}
+                        </a>
+                      </Link>
                     ))}
                   </nav>
                 </div>
                 <div className="flex-shrink-0 flex bg-gray-700 p-4">
-                  <a href="#" className="flex-shrink-0 group block">
-                    <div className="flex items-center">
-                      <div>
-                        <div className="inline-block h-10 w-10 rounded-full relative">
-                          <Image
-                            className='rounded-full'
-                            layout='fill'
-                            objectFit='contain'
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
-                          />
+                  <Link href={'/profile'}>
+                    <a className="flex-shrink-0 group block">
+                      <div className="flex items-center">
+                        <div>
+                          <div className="inline-block h-10 w-10 rounded-full relative">
+                            <Image
+                              className='rounded-full'
+                              layout='fill'
+                              objectFit='contain'
+                              src={isLoading ? "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" : user?.picture!}
+                              alt=""
+                            />
+                          </div>
+                        </div>
+                        <div className="ml-3">
+                          <p className="text-base font-medium text-white">{isLoading ? 'Loading...' : user?.name}</p>
+                          <p className="text-sm font-medium text-gray-400 group-hover:text-gray-300">View profile</p>
                         </div>
                       </div>
-                      <div className="ml-3">
-                        <p className="text-base font-medium text-white">Tom Cook</p>
-                        <p className="text-sm font-medium text-gray-400 group-hover:text-gray-300">View profile</p>
-                      </div>
-                    </div>
-                  </a>
+                    </a>
+                  </Link>
                 </div>
               </div>
             </Transition.Child>
@@ -167,47 +174,49 @@ function Layout({ children }: { children?: React.ReactNode }) {
               </div>
               <nav className="mt-5 flex-1 px-2 space-y-1">
                 {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={classNames(
-                      item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
-                    )}
-                  >
-                    <item.icon
+                  <Link href={item.href} key={item.name + 'wide'}>
+                    <a
                       className={classNames(
-                        item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
-                        'mr-3 flex-shrink-0 h-6 w-6'
+                        item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                        'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
                       )}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </a>
+                    >
+                      <item.icon
+                        className={classNames(
+                          item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
+                          'mr-3 flex-shrink-0 h-6 w-6'
+                        )}
+                        aria-hidden="true"
+                      />
+                      {item.name}
+                    </a>
+                  </Link>
                 ))}
               </nav>
             </div>
             <div className="flex-shrink-0 flex bg-gray-700 p-4">
-              <a href="#" className="flex-shrink-0 w-full group block">
-                <div className="flex items-center">
-                  <div>
-                    <div className="inline-block h-9 w-9 rounded-full relative">
-                      <Image
-                        className="rounded-full"
-                        layout="fill"
-                        objectFit="contain"
-                        loading='lazy'
-                        src={isLoading ? "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" : user?.picture!}
-                        alt=""
-                      />
+              <Link href={'/profile'}>
+                <a className="flex-shrink-0 w-full group block">
+                  <div className="flex items-center">
+                    <div>
+                      <div className="inline-block h-9 w-9 rounded-full relative">
+                        <Image
+                          className="rounded-full"
+                          layout="fill"
+                          objectFit="contain"
+                          loading='lazy'
+                          src={isLoading ? "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" : user?.picture!}
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                    <div className="ml-3">
+                      <p className="text-sm font-medium text-white">{isLoading ? 'Loading...' : user?.name}</p>
+                      <p className="text-xs font-medium text-gray-300 group-hover:text-gray-200">View profile</p>
                     </div>
                   </div>
-                  <div className="ml-3">
-                    <p className="text-sm font-medium text-white">{isLoading ? 'Loading...' : user?.name}</p>
-                    <p className="text-xs font-medium text-gray-300 group-hover:text-gray-200">View profile</p>
-                  </div>
-                </div>
-              </a>
+                </a>
+              </Link>
             </div>
           </div>
         </div>
