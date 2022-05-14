@@ -60,7 +60,7 @@ function EmptyMembersList() {
                     </form>
                 ) : null}
 
-                {((hasAccount === true && accountType === Plan.FREE)) ? (
+                {(hasAccount === true && accountType === Plan.FREE) ? (
                     <form action="#" method="post" className="mt-6 flex">
 
                         <button
@@ -73,24 +73,26 @@ function EmptyMembersList() {
                 ) : null}
 
 
-                {/* <form action="#" className="mt-6 flex">
-                    <label htmlFor="email" className="sr-only">
-                        Email address
-                    </label>
-                    <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                        placeholder="Enter an email"
-                    />
-                    <button
-                        type="submit"
-                        className="ml-4 flex-shrink-0 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        Send invite
-                    </button>
-                </form> */}
+                {(hasAccount === true && accountType !== Plan.FREE) ? (
+                    <form action="#" className="mt-6 flex">
+                        <label htmlFor="email" className="sr-only">
+                            Email address
+                        </label>
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                            placeholder="Enter an email"
+                        />
+                        <button
+                            type="submit"
+                            className="ml-4 flex-shrink-0 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                            Send invite
+                        </button>
+                    </form>
+                ) : null}
             </div>
         </div>
     )
