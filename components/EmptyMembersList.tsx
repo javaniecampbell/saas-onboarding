@@ -1,6 +1,27 @@
-import React from 'react'
+import { Plan } from '@/services/subscription'
+import { useUser } from '@auth0/nextjs-auth0'
+import React, { useEffect, useState } from 'react'
 
 function EmptyMembersList() {
+    const { user, isLoading } = useUser()
+    const [hasAccount, hasAccountSet] = useState(false)
+    const [accountType, accountTypeSet] = useState(Plan.FREE)
+    const namespace = 'https://api.pms/'
+    useEffect(() => {
+
+        if (!isLoading && user) {
+            const withAccount = (user as any)[namespace + 'accountCreated'];
+            const plan: string = (user as any)[namespace + 'plan'];
+            const type = plan ? Plan[plan.toUpperCase() as keyof typeof Plan] : Plan.FREE;
+            console.log(plan, type);
+            accountTypeSet(type);
+            hasAccountSet(withAccount);
+            console.log(user)
+        }
+
+    }, [isLoading, user, accountType, hasAccount])
+
+
     return (
         <div className="max-w-lg mx-auto">
             <div>
@@ -20,20 +41,38 @@ function EmptyMembersList() {
                         />
                     </svg>
                     <h2 className="mt-2 text-lg font-medium text-gray-900">Add team members</h2>
-                    <p className="mt-1 text-sm text-gray-500">
+                    {(accountType === Plan.FREE) ? (<p className="mt-1 text-sm text-gray-500">
+                        You have to upgrade your plan to add team members to your team.
+                    </p>) : (<p className="mt-1 text-sm text-gray-500">
                         You haven’t added any team members to your team yet. As the owner of this account, you can manage team
                         member permissions.
-                    </p>
+                    </p>)}
                 </div>
-                <form action="/api/accounts/getting-started" method="post" className="mt-6 flex">
+                {(!hasAccount) ? (
+                    <form action="/api/accounts/getting-started" method="post" className="mt-6 flex">
 
-                    <button
-                        type="submit"
-                        className="w-full flex-shrink-0 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        Let's get started
-                    </button>
-                </form>
+                        <button
+                            type="submit"
+                            className="w-full flex-shrink-0 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                            Let's get started
+                        </button>
+                    </form>
+                ) : null}
+
+                {((hasAccount === true && accountType === Plan.FREE)) ? (
+                    <form action="#" method="post" className="mt-6 flex">
+
+                        <button
+                            type="submit"
+                            className="w-full flex-shrink-0 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                            Update Plan
+                        </button>
+                    </form>
+                ) : null}
+
+
                 {/* <form action="#" className="mt-6 flex">
                     <label htmlFor="email" className="sr-only">
                         Email address
