@@ -5,6 +5,7 @@ import { withApiAuthRequired, getSession } from '@auth0/nextjs-auth0'
 import { PrismaClient } from '@prisma/client';
 import { createStripeCustomer } from '@/services/customer';
 import { Plan, subsribeToPlan } from '@/services/subscription';
+import { capitalize } from '@/helpers/index';
 
 type Account = {
     firstName: string
@@ -14,10 +15,7 @@ type Account = {
     auth0Id?: string
 }
 
-function capitalize(str: string) {
-    const lower = str.toLowerCase();
-    return str.charAt(0).toUpperCase() + lower.slice(1);
-}
+
 const prisma: PrismaClient = new PrismaClient();
 export default withApiAuthRequired(function handler(
     req: NextApiRequest,
