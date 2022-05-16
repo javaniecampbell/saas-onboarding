@@ -7,7 +7,6 @@ import { Action } from './_types';
 export function ActionCard({ action, actionIdx, length }: { action: Action; actionIdx: number; length: number; }) {
     return (
         <div
-            key={action.title}
             className={classNames(
                 actionIdx === 0 ? 'rounded-tl-lg rounded-tr-lg sm:rounded-tr-none' : '',
                 actionIdx === 1 ? 'sm:rounded-tr-lg' : '',
