@@ -2,7 +2,7 @@ import React from 'react'
 import MemberItem from './MemberItem'
 import { Member } from './_types'
 
-function MemberList({ members }: { members: Member[] }) {
+export function MemberList({ members }: { members: Member[] }) {
     return (
         <div>
             <table className="min-w-full divide-y divide-gray-300">

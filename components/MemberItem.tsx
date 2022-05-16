@@ -3,7 +3,7 @@ import { Member } from './_types'
 
 function MemberItem({ member }: { member: Member }) {
     return (
-        <div><tr key={member.email}>
+        <tr key={member.email}>
             <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
                 {member.name}
                 <dl className="font-normal lg:hidden">
@@ -21,7 +21,7 @@ function MemberItem({ member }: { member: Member }) {
                     Edit<span className="sr-only">, {member.name}</span>
                 </a>
             </td>
-        </tr></div>
+        </tr>
     )
 }
 
