@@ -7,6 +7,10 @@ type ModalProps = {
     children?: React.ReactNode
     icon?: (props: any) => JSX.Element
     isOpen?: boolean
+    actionLabel?: string
+    onAction?: (e: React.SyntheticEvent) => void
+    onCancelAction?: (e: React.SyntheticEvent) => void
+    formName?: string
 }
 const Modal = ({ title, description, children, ...rest }: ModalProps) => {
     const isOpen = rest.isOpen ?? false;
@@ -67,15 +71,39 @@ const Modal = ({ title, description, children, ...rest }: ModalProps) => {
                                         <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
                                             <button
                                                 type="button"
+                                                form={rest.formName}
                                                 className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm"
-                                                onClick={() => setOpen(false)}
+                                                onClick={(e) => {
+                                                    if (rest.onAction) {
+                                                        rest.onAction(e);
+                                                        setOpen(false)
+
+                                                    } else if (rest.formName) {
+                                                        e.preventDefault();
+                                                        const form = document.getElementById(rest.formName);
+                                                        if (form) {
+                                                            (form as HTMLFormElement).submit();
+                                                            setOpen(false);
+                                                        }
+                                                    } else {
+                                                        setOpen(false);
+                                                    }
+                                                }}
                                             >
-                                                Deactivate
+                                                {rest.actionLabel ? rest.actionLabel : 'Submit'}
                                             </button>
                                             <button
                                                 type="button"
                                                 className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm"
-                                                onClick={() => setOpen(false)}
+                                                onClick={(e) => {
+                                                    if (rest.onCancelAction) {
+                                                        rest.onCancelAction(e);
+                                                        setOpen(false)
+
+                                                    } else {
+                                                        setOpen(false)
+                                                    }
+                                                }}
                                                 ref={cancelButtonRef}
                                             >
                                                 Cancel
