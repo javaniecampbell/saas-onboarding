@@ -12,3 +12,10 @@ export type Team = {
     city?: string
 }
 
+export interface Action {
+    title: string
+    href: string
+    icon: (props: any) => JSX.Element
+    iconBackground: string
+    iconForeground: string
+}
