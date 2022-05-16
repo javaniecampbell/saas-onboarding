@@ -19,8 +19,8 @@ import { useUser } from '@auth0/nextjs-auth0'
 import Link from 'next/link'
 
 const navigation = [
-  { name: 'Dashboard', href: '/', icon: HomeIcon, current: true },
-  { name: 'Team', href: '/teams', icon: UsersIcon, current: false },
+  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: true },
+  { name: 'Teams', href: '/teams', icon: UsersIcon, current: false },
   // { name: 'Projects', href: '#', icon: FolderIcon, current: false },
   { name: 'Billing', href: '/billing', icon: CreditCardIcon, current: false },
   { name: 'Settings', href: '/settings', icon: CogIcon, current: false },
@@ -32,7 +32,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-function Layout({ children }: { children?: React.ReactNode }) {
+function Layout({ children, title }: { children?: React.ReactNode, title?: string}) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { user, isLoading } = useUser()
   return (
@@ -234,7 +234,7 @@ function Layout({ children }: { children?: React.ReactNode }) {
           <main className="flex-1">
             <div className="py-6">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
+                <h1 className="text-2xl font-semibold text-gray-900">{title ?? 'Dashboard'}</h1>
               </div>
               <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
                 {children}
