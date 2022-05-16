@@ -4,3 +4,11 @@ export interface Member {
     email: string
     role: string
 }
+
+export type Team = {
+    id: string
+    logo: string
+    name: string
+    city?: string
+}
+
