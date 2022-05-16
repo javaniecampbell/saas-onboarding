@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import {
   CalendarIcon,
@@ -17,6 +17,8 @@ import {
 import Image from 'next/image'
 import { useUser } from '@auth0/nextjs-auth0'
 import Link from 'next/link'
+import ActiveLink from './ActiveLink'
+import { useRouter } from 'next/router'
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: true },
@@ -32,9 +34,23 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-function Layout({ children, title }: { children?: React.ReactNode, title?: string}) {
+function Layout({ children, title }: { children?: React.ReactNode, title?: string }) {
+  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { user, isLoading } = useUser()
+
+  useEffect(() => {
+    navigation.forEach((route, index) => {
+      if (route.href === router.pathname) {
+        route.current = true;
+      } else {
+        route.current = false;
+      }
+    })
+
+    console.log(navigation);
+
+  }, [router.pathname])
   return (
     <>
       <Head>
@@ -108,23 +124,23 @@ function Layout({ children, title }: { children?: React.ReactNode, title?: strin
                   </div>
                   <nav className="mt-5 px-2 space-y-1">
                     {navigation.map((item) => (
-                      <Link href={item.href} key={item.name + '-mobile'}>
-                        <a
+                      <ActiveLink
+                        inactiveClassName={'text-gray-300 hover:bg-gray-700 hover:text-white'}
+                        activeClassName={'bg-gray-900 text-white'}
+                        className={'group flex items-center px-2 py-2 text-sm font-medium rounded-md'}
+                        href={item.href}
+                        key={item.name + 'mobile'}>
+
+                        <item.icon
                           className={classNames(
-                            item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                            'group flex items-center px-2 py-2 text-base font-medium rounded-md'
+                            item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
+                            'mr-4 flex-shrink-0 h-6 w-6'
                           )}
-                        >
-                          <item.icon
-                            className={classNames(
-                              item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
-                              'mr-4 flex-shrink-0 h-6 w-6'
-                            )}
-                            aria-hidden="true"
-                          />
-                          {item.name}
-                        </a>
-                      </Link>
+                          aria-hidden="true"
+                        />
+                        {item.name}
+
+                      </ActiveLink>
                     ))}
                   </nav>
                 </div>
@@ -174,23 +190,23 @@ function Layout({ children, title }: { children?: React.ReactNode, title?: strin
               </div>
               <nav className="mt-5 flex-1 px-2 space-y-1">
                 {navigation.map((item) => (
-                  <Link href={item.href} key={item.name + 'wide'}>
-                    <a
+                  <ActiveLink
+                    inactiveClassName={'text-gray-300 hover:bg-gray-700 hover:text-white'}
+                    activeClassName={'bg-gray-900 text-white'}
+                    className={'group flex items-center px-2 py-2 text-sm font-medium rounded-md'}
+                    href={item.href}
+                    key={item.name + 'wide'}>
+
+                    <item.icon
                       className={classNames(
-                        item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                        'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                        item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
+                        'mr-3 flex-shrink-0 h-6 w-6'
                       )}
-                    >
-                      <item.icon
-                        className={classNames(
-                          item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
-                          'mr-3 flex-shrink-0 h-6 w-6'
-                        )}
-                        aria-hidden="true"
-                      />
-                      {item.name}
-                    </a>
-                  </Link>
+                      aria-hidden="true"
+                    />
+                    {item.name}
+
+                  </ActiveLink>
                 ))}
               </nav>
             </div>
