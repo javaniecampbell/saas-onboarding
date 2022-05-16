@@ -7,18 +7,23 @@ import { Member } from "@/components/_types"
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { NextPage } from "next"
 import { useEffect, useState } from 'react'
+import slugify from 'react-slugify'
 
 const Teams: NextPage = () => {
     const [members, setMembers] = useState<Member[]>([])
+    const [team, teamSet] = useState<{ name: string, slug: string }>({
+        name: '',
+        slug: ''
+    });
     useEffect(() => {
         setMembers([
-        //     {
-        //     name: 'Team',
-        //     email: "email@sample.com",
-        //     title: "Sample Title",
-        //     role: "Blank Role"
-        // }
-    ])
+            //     {
+            //     name: 'Team',
+            //     email: "email@sample.com",
+            //     title: "Sample Title",
+            //     role: "Blank Role"
+            // }
+        ])
 
         //return () => {}
     }, [])
@@ -45,13 +50,20 @@ const Teams: NextPage = () => {
                             </div>
                         </div>
                         <div className="-mx-4 mt-8 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
-                            <MemberList members={members}  />
+                            <MemberList members={members} />
                         </div>
                     </>
                 )}
             </div>
-            <Modal title="New team" isOpen={true} >
-                <CreateTeamForm   />
+            <Modal title="New team" isOpen={true} formName={'newTeam'}>
+                <CreateTeamForm formName="newTeam" name={team.name} slug={slugify(team.name)} onChange={(e) => {
+                    let name = '', slug='';
+                    if(e.target.name === 'teamName'){
+                        name = e.target.value;
+                        slug = slugify(name);
+                    }
+                    teamSet({name, slug});
+                }} />
             </Modal>
         </Layout>
     )
