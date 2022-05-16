@@ -14,7 +14,7 @@ const Teams: NextPage = () => {
     }, [])
 
     return (
-        <Layout>
+        <Layout title={`Teams`}>
             <div className="mt-4 sm:mt-6 lg:mt-8">
                 {members.length <= 0 ? (<EmptyMembersList />) : (
                     <>

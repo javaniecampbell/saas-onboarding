@@ -4,7 +4,7 @@ import React from 'react'
 
 const Profile: NextPage = () => {
     return (
-        <Layout>Profile</Layout>
+        <Layout title="Profile"></Layout>
     )
 }
 

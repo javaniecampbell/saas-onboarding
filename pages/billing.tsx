@@ -4,7 +4,7 @@ import React from 'react'
 
 const Billing: NextPage = () => {
     return (
-        <Layout>Billing</Layout>
+        <Layout title={`Billing`}></Layout>
     )
 }
 

@@ -4,7 +4,7 @@ import React from 'react'
 
 const Settings: NextPage = () => {
     return (
-        <Layout>Settings</Layout>
+        <Layout title="Settings"></Layout>
     )
 }
 
